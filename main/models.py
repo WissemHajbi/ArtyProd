@@ -1,33 +1,45 @@
-# from django.utils import timezone
-# from django.db import models
+from django.db import models
+from django.contrib.auth.models import User
 
-# class Personel(models.Model):
-#     nom = models.CharField(max_length=30)
-#     fichier_CV = models.CharField(max_length=200)
-#     fichier_photo = models.CharField(max_length=200)
-#     lien_linkedIn = models.CharField(max_length=200)
-    
-#     def __str__(self):
-#         return self.nom
+class Service(models.Model):
+    type = models.CharField(max_length=255)
+    description = models.TextField()
 
+    def str(self):
+        return self.type
 
-# class Equipe(models.Model):
-#     person = models.ForeignKey(
-#         user, on_delete=models.CASCADE, related_name='voted_polls')
-    
-# class Projet(models.Model):
-#     libellai = models.CharField(max_length=30)
-#     description = models.CharField(max_length=3000)
-#     date_debut = models.DateTimeField(default=timezone.now)
-#     date_fin = models.DateTimeField(default=timezone.now)
-#     acheve = models.BooleanField(default=False)
-    
-# class Detail(models.Model):
-#     fichier = models.CharField(max_length=3000)
+class Detail(models.Model):
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='details')
+    fichier = models.FileField(upload_to='uploads/')
 
-# class Service(models.Model):
-#     type = models.CharField(max_length=200)
-#     description = models.CharField(max_length=3000)
-    
-# # add the relationships before migrating this to the db
+    def str(self):
+        return self.fichier.name
+
+class Project(models.Model):
+    equipe = models.OneToOneField('Equipe', on_delete=models.SET_NULL, null=True, blank=True, related_name='project')
+    libellai = models.CharField(max_length=255)
+    description = models.TextField()
+    date_debut = models.DateField()
+    date_fin = models.DateField()
+    acheve = models.BooleanField(default=False)
+
+    def str(self):
+        return self.libellai
+
+class Equipe(models.Model):
+    nom = models.CharField(max_length=255)
+    personnel = models.ManyToManyField('Personnel')
+
+    def str(self):
+        return self.nom
+
+class Personnel(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    cv = models.FileField(upload_to='uploads/')
+    photo = models.ImageField(upload_to='uploads/')
+    lien_linkedIn = models.URLField(blank=True)
+
+    def str(self):
+        return self.user.username
+
     
