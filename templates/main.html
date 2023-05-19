@@ -24,6 +24,9 @@
 </head>
 
 <body>
+
+    {% block content %}
+
     <h1>Arty Prod</h1>
     <nav>
         <ul>
@@ -44,6 +47,7 @@
     <section class="services py-5 bg-light">
         <div class="container py-5">
             <h1 class="text-left pb-5">OurServices.</h1>
+
             <div class="section sec-1">
                 <div class="container">
                     <div class="row g-0">
@@ -74,111 +78,49 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
+
 
     <section class="services py-5 bg-light">
         <div class="container py-5">
             <h1 class="text-left pb-5">OurProjects.</h1>
-            <div id="carouselExampleControls" class=" carousel carousel-dark slide" data-bs-ride="carousel">
-                <br>
-                <br>
+            <div id="carouselControls" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="card-wrapper container-sm d-flex  justify-content-around">
-                            <div class="card  " style="width: 650px; padding:2px;">
-                                <img src="https://source.unsplash.com/collection/190727/1600x900" class="card-img-top"
-                                    alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
 
-                                </div>
-                            </div>
-                            <div class="card" style="width: 650px;padding:2px;">
-                                <img src="https://source.unsplash.com/collection/190727/1600x900" class="card-img-top"
-                                    alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
+                {% for project in projects %}
+                    {% if forloop.counter0|divisibleby:3 %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="row">
+                    {% endif %}
 
-                                </div>
+                    <div class="col d-flex justify-content-center" style="margin-top:50px;">
+                        <div class="card shadow-lg p-3 mb-5" style="width:18rem;height:430px;">
+                        {% comment %} <a href="{% url 'question_answer' project.pk %}" class="text-decoration-none text-dark">
+                            <img src="{% static 'images/q&a.png' %}" class="card-img-top" alt="..."> {% endcomment %}
+                            <div class="card-body">
+                            <h5 class="card-title h-1 questionText " style="text-overflow: ellipsis;text-align: center;" >{{ project.libellai }}</h5>
                             </div>
-                            <div class="card" style="width: 650px;padding:2px;">
-                                <img src="https://source.unsplash.com/collection/190727/1600x900" class="card-img-top"
-                                    alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-
-                                </div>
-                            </div>
+                        </a>
                         </div>
                     </div>
-                    <div class="carousel-item">
-                        <div class="card-wrapper container-sm d-flex   justify-content-around">
-                            <div class="card  " style="width: 650px; padding:2px;">
-                                <img src="https://source.unsplash.com/collection/190727/1600x900" class="card-img-top"
-                                    alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
 
-                                </div>
-                            </div>
-                            <div class="card" style="width: 650px; padding:2px;">
-                                <img src="https://source.unsplash.com/collection/190727/1600x900" class="card-img-top"
-                                    alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-
-                                </div>
-                            </div>
-                            <div class="card" style="width: 650px; padding:2px;">
-                                <img src="https://source.unsplash.com/collection/190727/1600x900" class="card-img-top"
-                                    alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-
-                                </div>
-                            </div>
-                        </div>
+                    {% if forloop.counter|divisibleby:3 or forloop.last %}
                     </div>
-                    <div class="carousel-item">
-                        <div class="card-wrapper container-sm d-flex  justify-content-around">
-                            <div class="card " style="width: 650px; padding:2px;">
-                                <img src="https://source.unsplash.com/collection/190727/1600x900" class="card-img-top"
-                                    alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-
-                                </div>
-                            </div>
-                            <div class="card" style="width: 650px; padding:2px;">
-                                <img src="https://source.unsplash.com/collection/190727/1600x900" class="card-img-top"
-                                    alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-
-                                </div>
-                            </div>
-                            <div class="card" style="width: 650px; padding:2px;">
-                                <img src="https://source.unsplash.com/collection/190727/1600x900" class="card-img-top"
-                                    alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-
-                                </div>
-                            </div>
-                        </div>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-                        data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-                        data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
+                    {% endif %}
+                {% endfor %}
+
                 </div>
+                <button class="carousel-control-prev" style="width:50px;" type="button" data-bs-target="#carouselControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" style="width:50px;" type="button" data-bs-target="#carouselControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
         </div>
     </section>
@@ -188,39 +130,18 @@
 
             <section class="team">
                 <div class="team-content">
-                    <div class="box">
-                        <img src="images/person_1.jpg">
-                        <h3>Steph Jobs</h3>
-                        <h5>Artist</h5>
-                        <div class="icons">
-                            <a href="#"><i class="ri-twitter-fill"></i></a>
-                            <a href="#"><i class="ri-facebook-box-fill"></i></a>
-                            <a href="#"><i class="ri-instagram-fill"></i></a>
+                    {% for teamMember in personnel %}
+                        <div class="box">
+                            <img src={{teamMember.cv.url}}>
+                            <h3>{{teamMember.user.username|title}}</h3>
+                            <h5>{{teamMember.cv}}</h5>
+                            <div class="icons">
+                                <a href="#"><i class="ri-twitter-fill"></i></a>
+                                <a href="#"><i class="ri-facebook-box-fill"></i></a>
+                                <a href="#"><i class="ri-instagram-fill"></i></a>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="box">
-                        <img src="images/person_2.jpg">
-                        <h3>Steph Jobs</h3>
-                        <h5>Artist</h5>
-                        <div class="icons">
-                            <a href="#"><i class="ri-twitter-fill"></i></a>
-                            <a href="#"><i class="ri-facebook-box-fill"></i></a>
-                            <a href="#"><i class="ri-instagram-fill"></i></a>
-                        </div>
-                    </div>
-
-                    <div class="box">
-                        <img src="images/person_3.jpg">
-                        <h3>Steph Jobs</h3>
-                        <h5>Artist</h5>
-                        <div class="icons">
-                            <a href="#"><i class="ri-twitter-fill"></i></a>
-                            <a href="#"><i class="ri-facebook-box-fill"></i></a>
-                            <a href="#"><i class="ri-instagram-fill"></i></a>
-                        </div>
-                    </div>
-
+                    {% endfor %}
 
                 </div>
 
@@ -238,7 +159,7 @@
         integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
         crossorigin="anonymous"></script>
 
-
+    {% endblock content %}
 
 </body>
 

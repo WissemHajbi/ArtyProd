@@ -35,8 +35,8 @@ class Equipe(models.Model):
 
 class Personnel(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    cv = models.FileField(upload_to='uploads/')
-    photo = models.ImageField(upload_to='uploads/')
+    cv = models.FileField()
+    photo = models.ImageField()
     lien_linkedIn = models.URLField(blank=True)
 
     def str(self):
