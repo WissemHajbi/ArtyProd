@@ -1,0 +1,20 @@
+{% block content %}
+<h2>Se connecter</h2>
+<div>
+    <form method="post">
+        {% csrf_token %} {{ form.as_p }}
+        <button type="submit">se connecter</button>
+    </form>
+</div>
+
+<div>
+    {% comment %}
+    <small>
+        Pas encore inscrite? <a href="{% url 'register' %}"> S'inscrire </a>
+        <br />
+        Mot de passe oublié ?
+        <a href="#"> Renouveler mon mot de passe </a>
+    </small>
+    {% endcomment %}
+</div>
+{% endblock %}
