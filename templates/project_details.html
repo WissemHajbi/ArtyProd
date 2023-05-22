@@ -1,0 +1,14 @@
+{% block content %}
+
+<div class="card" style="width: 400px; margin: 10px; margin-left: 550px">
+    <div class="card-body">
+        <h5 class="card-title">Project</h5>
+        <img src="{{project.photo.url}}" style="width: 350px; height: 300px" />
+        <p class="card-text">Libellé: <b>{{project.libelle}}</b></p>
+        <p class="card-text">Description: <b>{{project.description}}</b></p>
+        <p class="card-text">Date Debut: {{project.date_debut}}</p>
+
+        <a href="{% url 'home' %}" class="btn btn-secondary">Retourner</a>
+    </div>
+</div>
+{% endblock %}

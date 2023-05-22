@@ -1,0 +1,17 @@
+{% block content %}
+
+<div class="container" style="background-color: white">
+    <div class="row">
+        <div class="col p-4">
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col-md-7">{{ form.as_p }}</div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

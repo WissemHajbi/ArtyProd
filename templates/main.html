@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% load static %}
     <link rel="stylesheet" href="{% static 'site.css' %}">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto&display=swap"
         rel="stylesheet">
@@ -20,7 +20,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+
     <title>ArtyProd</title>
+    
 </head>
 
 <body>
@@ -81,10 +83,64 @@
         </div>
     </section>
 
-
     <section class="services py-5 bg-light">
         <div class="container py-5">
             <h1 class="text-left pb-5">OurProjects.</h1>
+            <div id="carouselControls" class="carousel slide" data-bs-ride="carousel">
+                <a href="{% url "demande_project" %}" class="btn btn-primary rounded-pill" style="padding:4%;font-size:125%;">
+                    Demande Project
+                </a>
+                <div class="carousel-inner">
+
+                {% for project in projects %}
+                        {% if forloop.counter0|divisibleby:3 %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <div class="row">
+                        {% endif %}
+                                        {% if project.acheve == True %}
+                                            <div class="col d-flex justify-content-center" style="margin-top:50px;">
+                                                
+                                                <a href="{% url 'project_details' id=project.id %}" class="text-decoration-none text-dark">
+                                                    <div  class="card shadow-lg p-3 mb-5"  style="width:18rem;height:430px;">
+
+                                                        {% if request.user.is_staff %}
+                                                        <!-- Edit button -->
+                                                        <a href="{% url 'edit_project' project.id %}" class="rounded-circle text-decoration-none float-end text-danger text-opacity-75 fs-3 fw-bold" style="margin-top:-10px;"><i class="bi bi-pencil-fill"></i></a>
+                                                        <!-- Delete button -->
+                                                        <a href="{% url 'delete_project' project.id %}" class="rounded-circle text-decoration-none float-end text-danger text-opacity-75 fs-3 fw-bold" style="margin-top:-10px;"><i class="bi bi-trash3"></i></a>
+                                                        {% endif %}
+                                                        
+                                                        <img src={{project.photo.url}}>
+                                                        <div class="card-body">
+                                                            <h5 class="card-title h-1 questionText " style="text-overflow: ellipsis;text-align: center;" >{{ project.libellai }}</h5>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        {% endif %}
+                        {% if forloop.counter|divisibleby:3 or forloop.last %}
+                        </div>
+                        </div>
+                        {% endif %}
+                {% endfor %}
+
+                </div>
+                <button class="carousel-control-prev text-dark" style="width:50px;" type="button" data-bs-target="#carouselControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" style="width:50px;" type="button" data-bs-target="#carouselControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    {% if request.user.is_authenticated %}
+    <section class="services py-5 bg-light">
+        <div class="container py-5">
+            <h1 class="text-left pb-5">Projects In Progress.</h1>
             <div id="carouselControls" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
 
@@ -93,17 +149,28 @@
                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
                     <div class="row">
                     {% endif %}
+                                    {% if project.acheve == False %}
+                                        <div class="col d-flex justify-content-center" style="margin-top:50px;">
+                                            <div  class="card shadow-lg p-3 mb-5"  style="width:18rem;height:430px;">
 
-                    <div class="col d-flex justify-content-center" style="margin-top:50px;">
-                        <div class="card shadow-lg p-3 mb-5" style="width:18rem;height:430px;">
-                        {% comment %} <a href="{% url 'question_answer' project.pk %}" class="text-decoration-none text-dark">
-                            <img src="{% static 'images/q&a.png' %}" class="card-img-top" alt="..."> {% endcomment %}
-                            <div class="card-body">
-                            <h5 class="card-title h-1 questionText " style="text-overflow: ellipsis;text-align: center;" >{{ project.libellai }}</h5>
-                            </div>
-                        </a>
-                        </div>
-                    </div>
+                                                    {% if request.user.is_staff %}
+                                                    <a href="{% url 'project_details' id=project.id %}" class="text-decoration-none text-dark">
+                                                    <!-- Edit button -->
+                                                    <a href="{% url 'edit_project' project.id %}" class="rounded-circle text-decoration-none float-end text-danger text-opacity-75 fs-3 fw-bold" style="margin-top:-10px;"><i class="bi bi-pencil-fill"></i></a>
+                                                    <!-- Delete button -->
+                                                    <a href="{% url 'delete_project' project.id %}" class="rounded-circle text-decoration-none float-end text-danger text-opacity-75 fs-3 fw-bold" style="margin-top:-10px;"><i class="bi bi-trash3"></i></a>            
+                                                    {% endif %}
+                                                    
+                                                    <img src={{project.photo.url}}>
+                                                    <div class="card-body">
+                                                        <h5 class="card-title h-1 questionText " style="text-overflow: ellipsis;text-align: center;" >{{ project.libellai }}</h5>
+                                                    </div>
+                                                </div>
+                                            {% if request.user.is_staff %}
+                                            </a>
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
 
                     {% if forloop.counter|divisibleby:3 or forloop.last %}
                     </div>
@@ -123,6 +190,8 @@
             </div>
         </div>
     </section>
+    {% endif %}
+
     <section class="services py-5 bg-light">
         <div class="container py-5">
             <h1 class="text-left pb-5">OurTeam.</h1>
@@ -144,15 +213,8 @@
 
                 </div>
 
-
-
-
         </div>
     </section>
-
-
-
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"

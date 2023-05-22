@@ -22,6 +22,7 @@ class Project(models.Model):
     date_debut = models.DateField()
     date_fin = models.DateField()
     acheve = models.BooleanField(default=False)
+    photo = models.ImageField(default="")
 
     def str(self):
         return self.libellai
